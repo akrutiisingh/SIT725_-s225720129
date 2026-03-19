@@ -1,0 +1,20 @@
+{
+  "name": "2_2p",
+  "version": "1.0.0",
+  "description": "example app",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+    , "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+  "type": "git",
+  "url": "https://github.com/akrutiisingh/SIT725_-s225720129",
+  "directory": "2_2p"
+  },
+  "author": "Akruti Singh",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.21.2"
+  }
+}
