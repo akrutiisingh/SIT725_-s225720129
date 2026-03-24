@@ -1,0 +1,36 @@
+{
+  "name": "sit725_-s225720129",
+  "version": "1.0.0",
+  "description": "sit 725 week 3 prac",
+  "main": "server.js",
+"scripts": {
+"start": "node server.js"
+},
+  "homepage": "https://github.com/akrutiisingh/SIT725_-s225720129#readme",
+  "bugs": {
+    "url": "https://github.com/akrutiisingh/SIT725_-s225720129/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/akrutiisingh/SIT725_-s225720129.git"
+  },
+  
+"keywords": [
+"Nodejs",
+"Express",
+"Materialize",
+"HTML",
+"JS",
+"CSS"
+],
+ 
+"dependencies": {
+    "express": "^5.2.1"
+  },
+  
+  "license": "MIT",
+  "author": "Akruti Singh",
+  "type": "commonjs"
+  }
+
+
