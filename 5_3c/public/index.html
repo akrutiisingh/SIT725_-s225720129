@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Books Catalog</title>
+    <style>
+        #book-list { margin-top: 20px; padding: 10px; background-color: lightgray; width: 400px; }
+        #book-details { margin-top: 20px; padding: 15px; border: 1px solid darkgray; width: 400px; display: none; background-color: silver; }
+        button { background-color: darkblue; color: white; border: none; padding: 10px 15px; }
+        .list-item:hover { background-color: lightslategray; }
+        p { margin: 5px 0; }
+    </style>
+</head>
+<body>
+
+    <h1>Books Catalogue developed by s225720129</h1>
+    <p>Click the button below to get all books items:</p>
+    <button id="fetchBooksBtn">Get all books</button>
+
+    <div id="book-list"></div>
+
+    <div id="book-details">
+        <h3>Book Details</h3>
+        <p><strong>Title:</strong> <span id="det-title"></span></p>
+        <p><strong>Author:</strong> <span id="det-author"></span></p>
+        <p><strong>Year:</strong> <span id="det-year"></span></p>
+        <p><strong>Genre:</strong> <span id="det-genre"></span></p>
+        <p><strong>Summary:</strong> <span id="det-summary"></span></p>
+        <p><strong>Price (AUD):</strong> <span id="det-price"></span></p>
+    </div>
+
+    <script>
+        const btn = document.getElementById('fetchBooksBtn');
+        const listDiv = document.getElementById('book-list');
+        const detailsDiv = document.getElementById('book-details');
+
+        function renderList(items) {
+            listDiv.innerHTML = '';
+            detailsDiv.style.display = 'none'; // Hide details when list refreshes
+
+            items.forEach(book => {
+                const p = document.createElement('p');
+                p.className = 'list-item';
+                
+                const priceValue = typeof book.price === 'string' ? book.price : (book.price?.$numberDecimal || book.price);
+                
+                p.textContent = `${book.title} ${priceValue} AUD`;
+                
+                // Add click event for Requirement 5 (Detailed view)
+                p.onclick = () => fetchBookDetails(book.id);
+                
+                listDiv.appendChild(p);
+            });
+        }
+
+        // show a single book's details
+        async function fetchBookDetails(id) {
+            try {
+                const res = await fetch(`/api/books/${id}`);
+                const result = await res.json();
+                const book = result.data;
+
+                document.getElementById('det-title').textContent = book.title;
+                document.getElementById('det-author').textContent = book.author;
+                document.getElementById('det-year').textContent = book.year;
+                document.getElementById('det-genre').textContent = book.genre;
+                document.getElementById('det-summary').textContent = book.summary;
+                document.getElementById('det-price').textContent = typeof book.price === 'string' ? book.price : book.price?.$numberDecimal;
+
+                detailsDiv.style.display = 'block'; // Show the detail box
+            } catch (err) {
+                console.error("Error fetching details:", err);
+            }
+        }
+
+        btn.addEventListener('click', async () => {
+            listDiv.textContent = 'Loading...';
+            try {
+                const res = await fetch('/api/books');
+                const body = await res.json();
+                renderList(body.data);
+            } catch (err) {
+                listDiv.textContent = 'Error fetching books.';
+            }
+        });
+    </script>
+</body>
+</html>
