@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Book Catalog</title>
+    <style>
+        body { font-family: sans-serif; padding: 20px; }
+        .book-card { border: 1px solid #ccc; padding: 10px; margin-bottom: 10px; border-radius: 5px; }
+        h1 { color: #333; }
+    </style>
+</head>
+<body>
+    <h1>Books Catalog</h1>
+    <div id="book-list">Loading books...</div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            fetch('/api/books')
+                .then(response => response.json())
+                .then(result => {
+                    const list = document.getElementById('book-list');
+                    list.innerHTML = ''; // Clear loading text
+                    
+                    result.data.forEach(book => {
+                        const div = document.createElement('div');
+                        div.className = 'book-card';
+                        div.innerHTML = `<strong>${book.title}</strong> by ${book.author}`;
+                        list.appendChild(div);
+                    });
+                })
+                .catch(err => console.error('Error fetching books:', err));
+        });
+    </script>
+</body>
+</html>
