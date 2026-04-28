@@ -212,6 +212,7 @@ async function run() {
     tags: ["UPDATE_FAIL", "UNKNOWN_UPDATE"]
   });
 
+  // ---- T06 Missing required field ----
   await test({
   id: "T06",
   name: "Missing required field",
@@ -222,6 +223,7 @@ async function run() {
   tags: ["REQUIRED", "CREATE_FAIL"]
 });
 
+// ---- T07 Invalid type ----
 await test({
   id: "T07",
   name: "Invalid type year",
@@ -232,6 +234,7 @@ await test({
   tags: ["TYPE", "CREATE_FAIL"]
 });
 
+// ---- T08 Negative Boundary validation ----
 await test({
   id: "T08",
   name: "Negative price boundary",
@@ -242,6 +245,7 @@ await test({
   tags: ["BOUNDARY", "CREATE_FAIL"]
 });
 
+// ---- T09 Length validation ----
 await test({
   id: "T09",
   name: "Title too short",
@@ -252,6 +256,7 @@ await test({
   tags: ["LENGTH", "CREATE_FAIL"]
 });
 
+// ---- T10 Temporal validation ----
 await test({
   id: "T10",
   name: "Future year validation",
@@ -262,6 +267,7 @@ await test({
   tags: ["TEMPORAL", "CREATE_FAIL"]
 });
 
+// ---- T11 Update validation ----
 await test({
   id: "T11",
   name: "Update invalid data",
@@ -270,6 +276,28 @@ await test({
   expected: 400,
   body: { title: "" },
   tags: ["UPDATE_FAIL", "REQUIRED"]
+});
+
+// ---- T12 Integer validation ----
+await test({
+  id: "T12",
+  name: "Year must be integer",
+  method: "POST",
+  path: createPath,
+  expected: 400,
+  body: { ...makeValidBook(`b${Date.now()+7}`), year: 2020.5 },
+  tags: ["TYPE", "CREATE_FAIL"]
+});
+
+// ---- T13 Enum validation ----
+await test({
+  id: "T13",
+  name: "Invalid genre enum",
+  method: "POST",
+  path: createPath,
+  expected: 400,
+  body: { ...makeValidBook(`b${Date.now()+8}`), genre: "Horror" },
+  tags: ["TYPE", "CREATE_FAIL"]
 });
   const pass = logSummary();
   logCoverage();

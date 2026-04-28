@@ -13,6 +13,7 @@ const BookSchema = new mongoose.Schema(
       required: [true, "Title is required"],
       minlength: [2, "Title too short"],
       maxlength: [100, "Title too long"],
+      trim: true,
     },
     author: {
       type: String,
@@ -22,7 +23,13 @@ const BookSchema = new mongoose.Schema(
     },
     year: {
       type: Number,
+      required: false,
+      min: [0, "Year must be positive"],
       max: [new Date().getFullYear(), "Year cannot be in the future"],
+      validate: {
+        validator: Number.isInteger,
+        message: "Year must be an integer",
+      },
     },
     genre: {
       type: String,
@@ -34,7 +41,7 @@ const BookSchema = new mongoose.Schema(
         "Historical Fiction",
       ],
     },
-    summary: { type: String, maxlength: [500, "Summary too long"] },
+    summary: { type: String, maxlength: [500, "Summary too long"], trim: true },
     price: {
       type: mongoose.Decimal128,
       required: [true, "Price is required"],
