@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Order Progress</title>
+    <style>
+        body {text-align: center; padding-top: 50px; background: ghostwhite; }
+        .container { background: white; padding: 30px; display: inline-block;  width: 800px; }
+        
+        .progress-bg { 
+            width: 100%; height: 20px; background: lightgray; 
+            border-radius: 10px; margin: 20px 0; overflow: hidden; 
+        }
+        
+        #progress-fill { 
+            width: 0%; height: 100%; background: blue; 
+            transition: width 0.5s ease; 
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h3>Order Status</h3>
+        <h2 id="status-label">Connecting...</h2>
+        
+        <div class="progress-bg">
+            <div id="progress-fill"></div>
+        </div>
+        
+        <p id="percent-label">0% Complete</p>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
